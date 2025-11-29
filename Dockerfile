@@ -32,19 +32,6 @@ RUN npm ci --omit=dev
 COPY --from=builder /usr/src/app/dist ./dist
 COPY server.mjs ./
 
-# Set permissions for nginx user to write to necessary directories
-RUN apk add --no-cache dos2unix && \
-    dos2unix /entrypoint.sh && \
-    chmod +x /entrypoint.sh && \
-    chown -R nginx:nginx /usr/share/nginx/html && \
-    chown -R nginx:nginx /etc/nginx/conf.d && \
-    chown -R nginx:nginx /var/cache/nginx && \
-    chown -R nginx:nginx /var/log/nginx && \
-    mkdir -p /var/run/nginx && \
-    chown -R nginx:nginx /var/run/nginx && \
-    touch /var/run/nginx.pid && \
-    chown -R nginx:nginx /var/run/nginx.pid
-
 VOLUME ["/data"]
 EXPOSE 80
 
